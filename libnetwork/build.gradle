@@ -1,0 +1,50 @@
+plugins {
+    id 'com.android.library'
+    id 'kotlin-android'
+}
+
+android {
+    compileSdkVersion configId.compileSdkVersion
+    buildToolsVersion configId.buildToolsVersion
+
+    defaultConfig {
+        minSdkVersion configId.minSdkVersion
+        targetSdkVersion configId.targetSdkVersion
+        versionCode configId.versionCode
+        versionName configId.versionName
+        testInstrumentationRunner configId.testInstrumentationRunner
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+}
+
+dependencies {
+
+    implementation fileTree(includes: ['*.jar'], dir: 'libs')
+    implementation dependenciesID.kotlinStdlib
+    implementation dependenciesID.coreKtx
+    implementation dependenciesID.appcompat
+    implementation dependenciesID.material
+    implementation dependenciesID.constraintlayout
+    testImplementation dependenciesID.junit
+    androidTestImplementation dependenciesID.androidJunit
+    androidTestImplementation dependenciesID.espressoCore
+
+
+    api dependenciesID.retrofit2
+    api dependenciesID.converterGson
+    implementation project(":libbase")
+
+}

@@ -1,0 +1,78 @@
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+}
+
+def configId = rootProject.ext.configId
+def dependenciesID = rootProject.ext.dependenciesID
+
+android {
+    compileSdkVersion configId.compileSdkVersion
+    buildToolsVersion configId.buildToolsVersion
+
+    defaultConfig {
+        applicationId appID.app
+        minSdkVersion configId.minSdkVersion
+        targetSdkVersion configId.targetSdkVersion
+        versionCode configId.versionCode
+        versionName configId.versionName
+        testInstrumentationRunner configId.testInstrumentationRunner
+
+        ndk {
+            abiFilters 'armeabi-v7a'
+        }
+
+        multiDexEnabled true
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+
+    buildFeatures{
+        viewBinding = true
+    }
+
+}
+
+dependencies {
+
+    implementation fileTree(includes: ['*.jar'], dir: 'libs')
+
+    implementation dependenciesID.kotlinStdlib
+    implementation dependenciesID.coreKtx
+    implementation dependenciesID.appcompat
+    implementation dependenciesID.material
+    implementation dependenciesID.constraintlayout
+    testImplementation dependenciesID.junit
+    androidTestImplementation dependenciesID.androidJunit
+    androidTestImplementation dependenciesID.espressoCore
+
+
+
+    implementation "io.insert-koin:koin-android:3.2.0"
+
+//    implementation "io.insert-koin:koin-androidx-workmanager:3.2.0"
+//    implementation "io.insert-koin:koin-androidx-navigation:3.2.0"
+//    implementation "androidx.work:work-runtime-ktx:2.7.1"
+//
+//    implementation "org.koin:koin-core:2.1.5"
+//    implementation "org.koin:koin-androidx-viewmodel:2.1.5"
+
+
+    implementation project(":libbase")
+    implementation project(":libcommon")
+    implementation project(":modulecapture")
+
+
+}

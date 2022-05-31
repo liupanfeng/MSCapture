@@ -1,0 +1,6 @@
+rootProject.name = "MSCapture"
+include ':app'
+include ':libbase'
+include ':libcommon'
+include ':modulecapture'
+include ':libnetwork'

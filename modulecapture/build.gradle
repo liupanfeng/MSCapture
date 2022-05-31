@@ -1,0 +1,64 @@
+if (isRelease) { // 如果是发布版本时，各个模块都不能独立运行
+    apply plugin: 'com.android.library' // 正式环境  library不能独立运行
+} else {
+    apply plugin: 'com.android.application' // 测试环境 application独立运行
+}
+apply plugin: 'kotlin-android'
+
+android {
+    compileSdkVersion configId.compileSdkVersion
+    buildToolsVersion configId.buildToolsVersion
+
+    defaultConfig {
+        if (!isRelease) {
+            applicationId appID.modulecapture
+        }
+        minSdkVersion configId.minSdkVersion
+        targetSdkVersion configId.targetSdkVersion
+        versionCode configId.versionCode
+        versionName configId.versionName
+        testInstrumentationRunner configId.testInstrumentationRunner
+
+        ndk {
+            abiFilters 'armeabi-v7a'
+        }
+
+    }
+
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+    buildFeatures{
+        //noinspection DataBindingWithoutKapt
+        dataBinding = true
+        viewBinding = true
+    }
+}
+
+dependencies {
+
+    implementation fileTree(includes: ['*.jar'], dir: 'libs')
+    implementation dependenciesID.kotlinStdlib
+    implementation dependenciesID.coreKtx
+    implementation dependenciesID.appcompat
+    implementation dependenciesID.material
+    implementation dependenciesID.constraintlayout
+    testImplementation dependenciesID.junit
+    androidTestImplementation dependenciesID.androidJunit
+    androidTestImplementation dependenciesID.espressoCore
+
+    implementation project(":libbase")
+    implementation project(":libcommon")
+
+}
